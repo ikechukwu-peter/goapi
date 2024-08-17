@@ -4,7 +4,8 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/ikechukwu-peter/goapi/api"
+	"github.com/ikechukwu-peter/goapi/cmd/api"
+	"github.com/ikechukwu-peter/goapi/internal/tools"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -14,6 +15,7 @@ func Authorization(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var username string = r.URL.Query().Get("username")
 		var token = r.Header.Get("Authorization")
+
 		var err error
 
 		if username == "" || token == "" {
@@ -24,14 +26,16 @@ func Authorization(next http.Handler) http.Handler {
 
 		var database *tools.DatabaseInterface
 
-		database, err = tools.NewDatabase
+		database, err = tools.NewDatabase()
 
 		if err != nil {
 			api.InternalErrorHandler(w)
 			return
 		}
 
-		var loginDetails *tools.loginDetails
+		var loginDetails *tools.LoginDetails
+
+		loginDetails = (*database).GetUserLoginDetails(username)
 
 		if loginDetails == nil || token != (*loginDetails).AuthToken {
 			log.Error(UnAuthorizedError)

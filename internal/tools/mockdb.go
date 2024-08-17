@@ -33,7 +33,7 @@ func (d *mockDB) GetUserLoginDetails(username string) *LoginDetails {
 
 	var clientData = LoginDetails{}
 
-	clientData, ok = mockLoginDetails[username]
+	clientData, ok := mockLoginDetails[username]
 
 	if !ok {
 		return nil
@@ -46,7 +46,7 @@ func (d *mockDB) GetUserCoins(username string) *CoinDetails {
 
 	var clientData = CoinDetails{}
 
-	clientData, ok = mockCoinDetails[username]
+	clientData, ok := mockCoinDetails[username]
 
 	if !ok {
 		return nil

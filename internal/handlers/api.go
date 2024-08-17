@@ -8,7 +8,7 @@ import (
 
 func Handlers(r *chi.Mux) {
 	// Global Middleware
-	r.Use(chimiddle.StripSlashed)
+	r.Use(chimiddle.StripSlashes)
 
 	r.Route("/account", func(router chi.Router) {
 		// Middleware for /account route
